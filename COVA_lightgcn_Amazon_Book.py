@@ -249,10 +249,10 @@ class model_hyparameters(object):
         self.pretrain = 0
 
         # Joint SVD params
-        self.alpha = 0.5
-        self.beta = 0.5
-        self.w1 = 1.0
-        self.w2 = 1.0
+        self.alpha = 35
+        self.beta = 0.9
+        self.w1 = 0.0
+        self.w2 = 0.0
         self.w3 = 1.0
         self.num_iter = 10
 
@@ -262,7 +262,7 @@ class model_hyparameters(object):
 
 
 class joint_svd_unlearn(nn.Module):
-    def __init__(self, save_name, alpha=0.5, beta=0.5, w1=1.0, w2=1.0, w3=1.0, num_iter=10, num_dim=48) -> None:
+    def __init__(self, save_name, alpha=35, beta=0.9, w1=0.0, w2=0.0, w3=1.0, num_iter=10, num_dim=48) -> None:
         super(joint_svd_unlearn, self).__init__()
         self.alpha = alpha
         self.beta = beta
@@ -459,10 +459,10 @@ else:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Joint SVD Unlearning Experiment for Amazon_Book with LightGCN')
-    parser.add_argument('--alpha', type=float, default=0.5)
-    parser.add_argument('--beta', type=float, default=0.5)
-    parser.add_argument('--w1', type=float, default=1.0)
-    parser.add_argument('--w2', type=float, default=1.0)
+    parser.add_argument('--alpha', type=float, default=35)
+    parser.add_argument('--beta', type=float, default=0.9)
+    parser.add_argument('--w1', type=float, default=0.0)
+    parser.add_argument('--w2', type=float, default=0.0)
     parser.add_argument('--w3', type=float, default=1.0)
     parser.add_argument('--num_iter', type=int, default=10)
     parser.add_argument('--embed_size', type=int, default=48)
@@ -472,9 +472,9 @@ if __name__ == '__main__':
     parser.add_argument('--seed', type=int, default=1024)
     parser.add_argument('--lr', type=float, default=1e-3)
     parser.add_argument('--init_std', type=float, default=1e-3)
-    parser.add_argument('--version', type=str, default='mean')
+    parser.add_argument('--version', type=str, default='v7')
     parser.add_argument('--n_neg', type=int, default=1)
-    parser.add_argument('--gcn_layers', type=int)
+    parser.add_argument('--gcn_layers', type=int, default=1)
 
     args_cmd = parser.parse_args()
 
@@ -502,7 +502,7 @@ if __name__ == '__main__':
     config_args['w2'] = args_cmd.w2
     config_args['w3'] = args_cmd.w3
     config_args['num_iter'] = args_cmd.num_iter
-    config_args['script_name'] = 'jointsvd_lightgcn_Amazon_Book.py'
+    config_args['script_name'] = 'COVA_lightgcn_Amazon_Book.py'
     config_args['version'] = args_cmd.version
     config_args['n_neg'] = args_cmd.n_neg
 

@@ -23,7 +23,7 @@ class model_hyparameters(object):
         self.batch_size = 2048
         self.epoch = 5000
         self.data_path = 'Data/Process/'
-        self.dataset = 'Yelp'
+        self.dataset = 'Amazon_Book'
         self.attack = '0.01'
         self.k_hop = 0
         self.data_type = 'full'
@@ -34,10 +34,13 @@ class model_hyparameters(object):
         self.lr = 1e-3
         self.regs = 0
         self.init_std = 0
-        self.alpha = 0.5  # Joint SVD 
-        self.beta = 0.5   # Joint SVD 
+        self.alpha = 35  # Joint SVD 
+        self.beta = 0.9   # Joint SVD 
         self.stacking_method = 'vertical'  # 'vertical', 'horizontal', 'weighted_sum'
         self.num_iter = 10
+        self.w1 = 0.0
+        self.w2 = 0.0
+        self.w3 = 1.0
         
     def reset(self, config):
         for name,val in config.items():
@@ -45,7 +48,7 @@ class model_hyparameters(object):
 
 
 class joint_svd_unlearn(nn.Module):
-    def __init__(self, save_name, alpha=0.5, beta=0.5, w1=1.0, w2=2.0, w3=1.5, num_iter=5, num_dim=48) -> None:
+    def __init__(self, save_name, alpha=35, beta=0.9, w1=0.0, w2=0.0, w3=1.0, num_iter=10, num_dim=48) -> None:
         super(joint_svd_unlearn).__init__()
         self.alpha = alpha
         self.beta = beta
@@ -58,7 +61,7 @@ class joint_svd_unlearn(nn.Module):
 
     def compute_joint_svd_unlearning(self, model=None, data_generator=None, args=None):
         """
-        Joint SVD    (Yelp )
+        Joint SVD    (Amazon_Book )
         """
         # 1.     (1: positive, 0: unobserved)
         original_interaction_matrix = torch.zeros(data_generator.n_users, data_generator.n_items)
@@ -216,8 +219,6 @@ save_name = "Weights/MF_JointSVD/mf_dataset_{}_attack_{}_alpha_{}_beta_{}_w1_{}_
     print("    positive interaction  :", comprehensive_ranking_metrics['unlearn_positive_avg_rank_original'])
     print("    positive interaction  :", comprehensive_ranking_metrics['unlearn_positive_avg_rank_unlearned'])
     print("  positive interaction  :", comprehensive_ranking_metrics['unlearn_positive_rank_change'])
-    
-##################################################################
 
     #    
     print("***************comprehensive ranking metrics***************")
@@ -250,21 +251,21 @@ else:
 
 if __name__=='__main__':
     #   
-    parser = argparse.ArgumentParser(description='Joint SVD Unlearning Experiment for Yelp')
-    parser.add_argument('--alpha', type=float, default=0.5, help='Alpha parameter for Joint SVD')
-    parser.add_argument('--beta', type=float, default=0.5, help='Beta parameter for Joint SVD')
-    parser.add_argument('--w1', type=float, default=1.0, help='w1 parameter for Joint SVD')
-    parser.add_argument('--w2', type=float, default=1.0, help='w2 parameter for Joint SVD')
+    parser = argparse.ArgumentParser(description='Joint SVD Unlearning Experiment for Amazon_Book')
+    parser.add_argument('--alpha', type=float, default=35, help='Alpha parameter for Joint SVD')
+    parser.add_argument('--beta', type=float, default=0.9, help='Beta parameter for Joint SVD')
+    parser.add_argument('--w1', type=float, default=0.0, help='w1 parameter for Joint SVD')
+    parser.add_argument('--w2', type=float, default=0.0, help='w2 parameter for Joint SVD')
     parser.add_argument('--w3', type=float, default=1.0, help='w3 parameter for Joint SVD')
     parser.add_argument('--num_iter', type=int, default=10, help='Number of iterations')
     parser.add_argument('--embed_size', type=int, default=48, help='Embedding size')
     parser.add_argument('--batch_size', type=int, default=2048, help='Batch size')
-    parser.add_argument('--dataset', type=str, default='Yelp', help='Dataset name')
+    parser.add_argument('--dataset', type=str, default='Amazon_Book', help='Dataset name')
     parser.add_argument('--attack', type=str, default='0.01', help='Attack ratio')
     parser.add_argument('--seed', type=int, default=1024, help='Random seed')
     parser.add_argument('--lr', type=float, default=1e-3, help='Learning rate')
     parser.add_argument('--init_std', type=float, default=1e-3, help='Initialization standard deviation')
-    parser.add_argument('--version', type=str, default='mean', help='Version of Joint SVD')
+    parser.add_argument('--version', type=str, default='v7', help='Version of Joint SVD')
     
     args_cmd = parser.parse_args()
     
@@ -291,7 +292,7 @@ if __name__=='__main__':
     config_args['w3'] = args_cmd.w3
     config_args['num_iter'] = args_cmd.num_iter
     
-    config_args['script_name'] = "jointsvd_mf_yelp.py"
+    config_args['script_name'] = "COVA_mf_Amazon_Book.py"
     config_args['version'] = args_cmd.version
     
     if config_args['version'] == 'mean':
