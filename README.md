@@ -22,43 +22,52 @@ Place your datasets under `Data/`. Preprocessing will produce processed files un
 python _data_process.py
 ```
 
+## Models Directory Structure
+All model scripts are organized under `models/`:
+- `models/original`: Original training scripts
+- `models/retrain`: Retraining (ground-truth) scripts
+- `models/sisa`: SISA unlearning scripts
+- `models/receraser`: RecEraser scripts
+- `models/scif`: SCIF-related scripts
+- `models/ifru`: IFRU-related scripts
+- `models/COVA`: COVA scripts
+
+Legacy top-level scripts are kept as lightweight shims (symlinks) for backward compatibility. Please prefer invoking scripts from `models/` going forward.
+
 ## Training
 Below we show LightGCN and MF examples on Yelp. Replace `yelp` with `gowalla` or `amazon` variants by choosing the corresponding scripts in this folder.
 
 ### Original Model
-2)
 - LightGCN (Yelp):
 ```bash
-python original_lightgcn_yelp_bpr.py --attack 0.01 --gcn_layers 1
+python models/original/original_lightgcn_yelp_bpr.py --attack 0.01 --gcn_layers 1
 ```
 
 - MF (Yelp):
 ```bash
-python original_mf_yelp_bpr.py --attack 0.01
+python models/original/original_mf_yelp_bpr.py --attack 0.01
 ```
 
 ### Retraining Model
-3)
 - LightGCN (Yelp):
 ```bash
-python retrain_lightgcn_yelp_bpr.py --attack 0.01 --gcn_layers 1
+python models/retrain/retrain_lightgcn_yelp_bpr.py --attack 0.01 --gcn_layers 1
 ```
 
 - MF (Yelp):
 ```bash
-python retrain_mf_yelp_bpr.py --attack 0.01
+python models/retrain/retrain_mf_yelp_bpr.py --attack 0.01
 ```
 
 ### COVA
-4) 
 - LightGCN (Yelp):
 ```bash
-python COVA_lightgcn_yelp.py --attack 0.01 --alpha 35 --beta 0.9 --dataset Yelp --num_iter 10 --gcn_layers $GCN_LAYERS
+python models/COVA/COVA_lightgcn_yelp.py --attack 0.01 --dataset Yelp --gcn_layers 1
 ```
 
 - MF (Yelp):
 ```bash
-python COVA_mf_yelp.py --attack 0.01 --alpha 35 --beta 0.9 --dataset Yelp --num_iter 10
+python models/COVA/COVA_mf_yelp.py --attack 0.01 --dataset Yelp
 ```
 
 ### Outputs
