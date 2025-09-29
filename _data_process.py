@@ -57,8 +57,7 @@ if __name__ == '__main__':
     print(args.dataset)
     data = pd.read_csv(load_path, delimiter=' ', header=None, names=['user', 'item', 'label'])
 
-    # thre_ 6, 7, 8      
-    # (     )
+    # thre_ 6, 7, 8
 
     print("user num:", data['user'].unique().shape[0])
     print("item num:", data['item'].unique().shape[0])

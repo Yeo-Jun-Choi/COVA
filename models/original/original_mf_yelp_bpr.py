@@ -1,18 +1,15 @@
 from distutils.command.config import config
-import os
+import sys, os
 import torch
 import numpy as np
-from utility.load_data import *
 import pandas as pd
-import sys
 from time import time
 from sklearn.metrics import roc_auc_score
-from utility.compute import compute_ranking_metrics
 import random
 from Model.MF import MF
+from utility.load_data import *
 from utility.compute import *
 from utility.negative_sampling import sample_triplets_for_bpr
-
 
 class model_hyparameters(object):
     def __init__(self):

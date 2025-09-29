@@ -14,7 +14,7 @@ The code supports a simple, reproducible workflow:
 You can install the core dependencies using:
 ```
 # It is recommended to use a virtual environment
-pip install torch==2.5.1+cu121 -f https://download.pytorch.org/whl/cu121/torch_stable.html
+pip install torch==2.5.1
 pip install numpy==1.26.3 pandas==2.3.1 scipy==1.13.1 scikit-learn==1.6.1
 
 ```
@@ -70,38 +70,66 @@ Legacy top-level scripts are kept as lightweight shims (symlinks) for backward c
 ## Training
 Below we show LightGCN and MF examples on Yelp. Replace `yelp` with `gowalla` or `amazon` variants by choosing the corresponding scripts in this folder.
 
-### Original Model
+
+## Usage
+
+This project can be executed with a single script: **main.py**.  
+You only need to edit `main.py` to set the desired **model type (model_type)**, **algorithm (algorithm)**, **dataset (dataset)**, and **parameters (args)**.  
+
+---
+
+### Run Command
+
+```bash
+python main.py
+```
+
+### Configuration
+Inside main.py, modify the run_model() call:
+```bash
+run_model(model_type, algorithm, dataset, args)
+```
+
+- model_type: choose from original, retrain, cova
+- algorithm: supported algorithms, e.g., MF, LightGCN
+- dataset: dataset name, e.g., Yelp, Amazon
+- args: additional parameters (dictionary format)
+
+### Example For Runs
+* Original Model
 - LightGCN (Yelp):
 ```bash
-python models/original/original_lightgcn_yelp_bpr.py --attack 0.01 --gcn_layers 1
+run_model('Original', 'LightGCN', 'Yelp', {'attack': '0.01', 'gcn_layers': '1'})
 ```
 
 - MF (Yelp):
 ```bash
-python models/original/original_mf_yelp_bpr.py --attack 0.01
+run_model('Original', 'MF', 'Yelp', {'attack': '0.01'})
 ```
 
-### Retraining Model
+* Retraining Model
 - LightGCN (Yelp):
 ```bash
-python models/retrain/retrain_lightgcn_yelp_bpr.py --attack 0.01 --gcn_layers 1
+run_model('Retrain', 'LightGCN', 'Yelp', {'attack': '0.01', 'gcn_layers': '1'})
 ```
 
 - MF (Yelp):
 ```bash
-python models/retrain/retrain_mf_yelp_bpr.py --attack 0.01
+run_model('Retrain', 'MF', 'Yelp', {'attack': '0.01'})
 ```
 
-### COVA
+*  COVA
 - LightGCN (Yelp):
 ```bash
-python models/COVA/COVA_lightgcn_yelp.py --attack 0.01 --dataset Yelp --gcn_layers 1
+run_model('COVA', 'LightGCN', 'Yelp', {'attack': '0.01', 'dataset': 'Yelp', 'gcn_layers': '1'})
 ```
 
 - MF (Yelp):
 ```bash
-python models/COVA/COVA_mf_yelp.py --attack 0.01 --dataset Yelp
+run_model('COVA', 'MF', 'Yelp', {'attack': '0.01', 'dataset': 'Yelp'})
 ```
+
+
 
 ### Outputs
 - Model checkpoints are saved under `./Weights/LightGCN/` or `./Weights/MF/` with informative names including key configuration values.
