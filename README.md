@@ -11,6 +11,13 @@ The code supports a simple, reproducible workflow:
 - PyTorch 2.5.1+cu121 (CUDA 12.1)
 - numpy 1.26.3, pandas 2.3.1, scipy 1.13.1, scikit-learn 1.6.1
 
+You can install the core dependencies using:
+```
+# It is recommended to use a virtual environment
+pip install torch==2.5.1+cu121 -f https://download.pytorch.org/whl/cu121/torch_stable.html
+pip install numpy==1.26.3 pandas==2.3.1 scipy==1.13.1 scikit-learn==1.6.1
+
+```
 
 ## Data
 Place your datasets under `Data/`. Preprocessing will produce processed files under `Data/Process/<DATASET>/<ATTACK>/`.
@@ -21,6 +28,32 @@ Place your datasets under `Data/`. Preprocessing will produce processed files un
 ```bash
 python _data_process.py
 ```
+
+2) Preprocessing Command Examples : specify the --dataset argument (Amazon_Book, Gowalla, or Yelp).
+
+- Basic Example (Yelp):
+Yelp dataset is preprocessed using default settings (attack=0.01, k=5, seed=1024).
+```bash
+python _data_process.py --dataset Yelp
+```
+
+- Full Arguments Example (Gowalla, Custom Settings):
+Gowalla dataset is preprocessed with attack=0.05, k-core=10, and a custom seed=42.
+```bash
+python _data_process.py --dataset Gowalla --attack 0.05 --k 10 --seed 42
+```
+
+
+
+### Directory Setup
+````bash
+
+mkdir -p Weights/MF
+mkdir -p Weights/MF_JointSVD
+mkdir -p Weights/LightGCN
+mkdir -p Weights/LightGCN_JointSVD
+````
+
 
 ## Models Directory Structure
 All model scripts are organized under `models/`:

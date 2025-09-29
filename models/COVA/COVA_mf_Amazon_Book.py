@@ -186,7 +186,8 @@ def main(config_args=None):
     for k in k_list:
         print(f"Valid Recall@{k}: {valid_metrics[f'recall_at_{k}']:.4f}, NDCG@{k}: {valid_metrics[f'ndcg_at_{k}']:.4f}")
         print(f"Test Recall@{k}: {test_metrics[f'recall_at_{k}']:.4f}, NDCG@{k}: {test_metrics[f'ndcg_at_{k}']:.4f}")
-save_name = "Weights/MF_JointSVD/mf_dataset_{}_attack_{}_alpha_{}_beta_{}_w1_{}_w2_{}_w3_{}.pth".format(
+    
+    save_name = "Weights/MF_JointSVD/mf_dataset_{}_attack_{}_alpha_{}_beta_{}_w1_{}_w2_{}_w3_{}.pth".format(
         args.dataset, args.attack, args.alpha, args.beta, args.w1, args.w2, args.w3
     )
     unlearn = joint_svd_unlearn(
@@ -209,7 +210,7 @@ save_name = "Weights/MF_JointSVD/mf_dataset_{}_attack_{}_alpha_{}_beta_{}_w1_{}_
     for k in k_list:
         print(f"Valid Recall@{k}: {valid_metrics_after[f'recall_at_{k}']:.4f}, NDCG@{k}: {valid_metrics_after[f'ndcg_at_{k}']:.4f}")
         print(f"Test Recall@{k}: {test_metrics_after[f'recall_at_{k}']:.4f}, NDCG@{k}: {test_metrics_after[f'ndcg_at_{k}']:.4f}")
-######################## ########################
+
     print("***************Request from Professor***************")
     comprehensive_ranking_metrics = compute_comprehensive_ranking_metrics(original_model, retraining_model, data_generator, top_k=10)
     
@@ -220,7 +221,6 @@ save_name = "Weights/MF_JointSVD/mf_dataset_{}_attack_{}_alpha_{}_beta_{}_w1_{}_
     print("    positive interaction  :", comprehensive_ranking_metrics['unlearn_positive_avg_rank_unlearned'])
     print("  positive interaction  :", comprehensive_ranking_metrics['unlearn_positive_rank_change'])
 
-    #    
     print("***************comprehensive ranking metrics***************")
     comprehensive_ranking_metrics = compute_comprehensive_ranking_metrics(original_model, model, data_generator, top_k=10)
     
@@ -231,8 +231,7 @@ save_name = "Weights/MF_JointSVD/mf_dataset_{}_attack_{}_alpha_{}_beta_{}_w1_{}_
     print("    positive interaction  :", comprehensive_ranking_metrics['unlearn_positive_avg_rank_unlearned'])
     print("  positive interaction  :", comprehensive_ranking_metrics['unlearn_positive_rank_change'])
     
-    # Wandb 
-k_list = [20, 50, 100]
+    k_list = [20, 50, 100]
     # Retraining  
     if retraining_model is not None:
         print("***************retraining-based metrics***************")
@@ -240,18 +239,18 @@ k_list = [20, 50, 100]
         for k in k_list:
             print(f"Recall@{k}: {retraining_metrics[f'recall_at_{k}']:.4f}")
             print(f"NDCG@{k}: {retraining_metrics[f'ndcg_at_{k}']:.4f}")
-print("***************retraining-based metrics to original model***************")
+            print("***************retraining-based metrics to original model***************")
         retraining_metrics = compute_retraining_based_metrics(retraining_model, original_model, data_generator, k_list=k_list)
         for k in k_list:
             print(f"Recall@{k}: {retraining_metrics[f'recall_at_{k}']:.4f}")
             print(f"NDCG@{k}: {retraining_metrics[f'ndcg_at_{k}']:.4f}")
-else:
+    else:
         print("Retraining   ground truth   .")
 
 
 if __name__=='__main__':
     #   
-    parser = argparse.ArgumentParser(description='Joint SVD Unlearning Experiment for Amazon_Book')
+    parser = argparse.ArgumentParser(description='COVA Unlearning Experiment for Amazon_Book')
     parser.add_argument('--alpha', type=float, default=35, help='Alpha parameter for Joint SVD')
     parser.add_argument('--beta', type=float, default=0.9, help='Beta parameter for Joint SVD')
     parser.add_argument('--w1', type=float, default=0.0, help='w1 parameter for Joint SVD')
@@ -296,39 +295,7 @@ if __name__=='__main__':
     config_args['version'] = args_cmd.version
     
     if config_args['version'] == 'mean':
-        from joint_svd import joint_svd_unlearning_v3_mean as joint_svd_unlearning
-    elif config_args['version'] == 'minmax':
-        from joint_svd import joint_svd_unlearning_v3_minmax as joint_svd_unlearning
-    elif config_args['version'] == 'gaussian':
-        from joint_svd import joint_svd_unlearning_v3_gaussian as joint_svd_unlearning
-    elif config_args['version'] == 'mean_user_weight':
-        from joint_svd import joint_svd_unlearning_v3_mean_user_weight as joint_svd_unlearning
-    elif config_args['version'] == 'minmax_user_weight':
-        from joint_svd import joint_svd_unlearning_v3_minmax_user_weight as joint_svd_unlearning
-    elif config_args['version'] == 'gaussian_user_weight':
-        from joint_svd import joint_svd_unlearning_v3_gaussian_user_weight as joint_svd_unlearning
-    elif config_args['version'] == 'mean2':
-        from joint_svd import joint_svd_unlearning_v3_mean2 as joint_svd_unlearning
-    elif config_args['version'] == 'mean3':
-        from joint_svd import joint_svd_unlearning_v3_mean3 as joint_svd_unlearning
-    elif config_args['version'] == 'mean4':
-        from joint_svd import joint_svd_unlearning_v3_mean4 as joint_svd_unlearning
-    elif config_args['version'] == 'v4':
-        from joint_svd import joint_svd_unlearning_v4 as joint_svd_unlearning
-    elif config_args['version'] == 'v4_wonorm':
-        from joint_svd import joint_svd_unlearning_v4_wonorm as joint_svd_unlearning
-    elif config_args['version'] == 'v4_min':
-        from joint_svd import joint_svd_unlearning_v4_min as joint_svd_unlearning
-    elif config_args['version'] == 'v4_min_wonorm':
-        from joint_svd import joint_svd_unlearning_v4_min_wonorm as joint_svd_unlearning
-    elif config_args['version'] == 'v5':
-        from joint_svd import joint_svd_unlearning_v5 as joint_svd_unlearning
-    elif config_args['version'] == 'v6':
-        from joint_svd import joint_svd_unlearning_v6 as joint_svd_unlearning
+        from joint_svd import joint_svd_unlearning_v7_mean_std as joint_svd_unlearning
     elif config_args['version'] == 'v7':
         from joint_svd import joint_svd_unlearning_v7 as joint_svd_unlearning
-    elif config_args['version'] == 'v8':
-        from joint_svd import joint_svd_unlearning_v8 as joint_svd_unlearning
-    elif config_args['version'] == 'v9':
-        from joint_svd import joint_svd_unlearning_v9 as joint_svd_unlearning
     main(config_args) 

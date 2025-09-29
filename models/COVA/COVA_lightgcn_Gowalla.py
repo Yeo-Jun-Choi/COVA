@@ -396,7 +396,7 @@ def main(config_args=None):
     for k in k_list:
         print(f"Valid Recall@{k}: {valid_metrics[f'recall_at_{k}']:.4f}, NDCG@{k}: {valid_metrics[f'ndcg_at_{k}']:.4f}")
         print(f"Test  Recall@{k}: {test_metrics[f'recall_at_{k}']:.4f}, NDCG@{k}: {test_metrics[f'ndcg_at_{k}']:.4f}")
-# Joint SVD 
+
     save_name = "Weights/LightGCN_JointSVD/lightgcn_dataset_{}_attack_{}_alpha_{}_beta_{}_w1_{}_w2_{}_w3_{}_gcnlayers_{}.pth".format(
         args.dataset, args.attack, args.alpha, args.beta, args.w1, args.w2, args.w3, getattr(args, 'gcn_layers', 1)
     )
@@ -420,7 +420,6 @@ def main(config_args=None):
     for k in k_list:
         print(f"Valid Recall@{k}: {valid_metrics_after[f'recall_at_{k}']:.4f}, NDCG@{k}: {valid_metrics_after[f'ndcg_at_{k}']:.4f}")
         print(f"Test  Recall@{k}: {test_metrics_after[f'recall_at_{k}']:.4f}, NDCG@{k}: {test_metrics_after[f'ndcg_at_{k}']:.4f}")
-######################## ########################
     print("***************Request from Professor***************")
     comprehensive_ranking_metrics = compute_comprehensive_ranking_metrics_lightgcn(original_model, retraining_model, data_generator)
     
@@ -441,24 +440,24 @@ def main(config_args=None):
     print("   :", comp_metrics['unlearn_positive_avg_rank_original'])
     print("   :", comp_metrics['unlearn_positive_avg_rank_unlearned'])
     print(" :", comp_metrics['unlearn_positive_rank_change'])
-# Retraining   (optional)
+    # Retraining   (optional)
     if retraining_model is not None:
         print('***************retraining-based metrics***************')
         rt_metrics = compute_retraining_based_metrics_lightgcn(retraining_model, model, data_generator, k_list=k_list)
         for k in k_list:
             print(f"Recall@{k}: {rt_metrics[f'recall_at_{k}']:.4f}")
             print(f"NDCG@{k}: {rt_metrics[f'ndcg_at_{k}']:.4f}")
-print('***************retraining-based metrics to original model***************')
+            print('***************retraining-based metrics to original model***************')
         rt2 = compute_retraining_based_metrics_lightgcn(retraining_model, original_model, data_generator, k_list=k_list)
         for k in k_list:
             print(f"Recall@{k}: {rt2[f'recall_at_{k}']:.4f}")
             print(f"NDCG@{k}: {rt2[f'ndcg_at_{k}']:.4f}")
-else:
+    else:
         print('Retraining   ground truth   .')
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Joint SVD Unlearning Experiment for Gowalla with LightGCN')
+    parser = argparse.ArgumentParser(description='COVA Unlearning Experiment for Gowalla with LightGCN')
     parser.add_argument('--alpha', type=float, default=35)
     parser.add_argument('--beta', type=float, default=0.9)
     parser.add_argument('--w1', type=float, default=0.0)
@@ -507,40 +506,8 @@ if __name__ == '__main__':
     config_args['n_neg'] = args_cmd.n_neg
 
     if config_args['version'] == 'mean':
-        from joint_svd import joint_svd_unlearning_v3_mean as joint_svd_unlearning
-    elif config_args['version'] == 'minmax':
-        from joint_svd import joint_svd_unlearning_v3_minmax as joint_svd_unlearning
-    elif config_args['version'] == 'gaussian':
-        from joint_svd import joint_svd_unlearning_v3_gaussian as joint_svd_unlearning
-    elif config_args['version'] == 'mean_user_weight':
-        from joint_svd import joint_svd_unlearning_v3_mean_user_weight as joint_svd_unlearning
-    elif config_args['version'] == 'minmax_user_weight':
-        from joint_svd import joint_svd_unlearning_v3_minmax_user_weight as joint_svd_unlearning
-    elif config_args['version'] == 'gaussian_user_weight':
-        from joint_svd import joint_svd_unlearning_v3_gaussian_user_weight as joint_svd_unlearning
-    elif config_args['version'] == 'mean2':
-        from joint_svd import joint_svd_unlearning_v3_mean2 as joint_svd_unlearning
-    elif config_args['version'] == 'mean3':
-        from joint_svd import joint_svd_unlearning_v3_mean3 as joint_svd_unlearning
-    elif config_args['version'] == 'mean4':
-        from joint_svd import joint_svd_unlearning_v3_mean4 as joint_svd_unlearning
-    elif config_args['version'] == 'v4':
-        from joint_svd import joint_svd_unlearning_v4 as joint_svd_unlearning
-    elif config_args['version'] == 'v4_wonorm':
-        from joint_svd import joint_svd_unlearning_v4_wonorm as joint_svd_unlearning
-    elif config_args['version'] == 'v4_min':
-        from joint_svd import joint_svd_unlearning_v4_min as joint_svd_unlearning
-    elif config_args['version'] == 'v4_min_wonorm':
-        from joint_svd import joint_svd_unlearning_v4_min_wonorm as joint_svd_unlearning
-    elif config_args['version'] == 'v5':
-        from joint_svd import joint_svd_unlearning_v5 as joint_svd_unlearning
-    elif config_args['version'] == 'v6':
-        from joint_svd import joint_svd_unlearning_v6 as joint_svd_unlearning
+        from joint_svd import joint_svd_unlearning_v7_mean_std as joint_svd_unlearning
     elif config_args['version'] == 'v7':
         from joint_svd import joint_svd_unlearning_v7 as joint_svd_unlearning
-    elif config_args['version'] == 'v8':
-        from joint_svd import joint_svd_unlearning_v8 as joint_svd_unlearning
-    elif config_args['version'] == 'v9':
-        from joint_svd import joint_svd_unlearning_v9 as joint_svd_unlearning
 
     main(config_args) 
