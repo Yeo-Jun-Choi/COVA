@@ -37,9 +37,6 @@ You only need to edit `main.py` to set the desired **model type (model_type)**, 
 ```bash
 # Example: LightGCN on Yelp
 python main.py --model-type cova --algorithm MF --dataset yelp --attack 0.01 --alpha 35 --beta 0.9
-
-# Example: MF on Amazon_Book (preset in code)
-python main.py
 ```
 
 ### Outputs
