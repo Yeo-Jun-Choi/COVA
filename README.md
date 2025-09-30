@@ -31,6 +31,18 @@ mkdir -p Weights/LightGCN_JointSVD
 
 ## Usage & Evaluation
 
+First, we train original model for applying unlearning.
+
+```bash
+python models/original/original_mf_yelp_bpr.py --attack 0.01
+```
+
+Second, we train retraininig model for evaluation.
+
+```bash
+python models/retrain/retrain_mf_yelp_bpr.py --attack 0.01
+```
+
 This project can be executed with a single script: **main.py**.  
 You only need to edit `main.py` to set the desired **model type (model_type)**, **algorithm (algorithm)**, **dataset (dataset)**, and **parameters (args)**.  
 
