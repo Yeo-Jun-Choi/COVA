@@ -14,6 +14,7 @@ from torch.autograd import Variable
 from utility.compute import *
 import random
 import argparse
+from models.COVA.joint_svd import joint_svd_unlearning_v7 as joint_svd_unlearning
 
 
 class model_hyparameters(object):
@@ -294,8 +295,4 @@ if __name__=='__main__':
     config_args['script_name'] = "COVA_mf_Amazon_Book.py"
     config_args['version'] = args_cmd.version
     
-    if config_args['version'] == 'mean':
-        from joint_svd import joint_svd_unlearning_v7_mean_std as joint_svd_unlearning
-    elif config_args['version'] == 'v7':
-        from joint_svd import joint_svd_unlearning_v7 as joint_svd_unlearning
     main(config_args) 

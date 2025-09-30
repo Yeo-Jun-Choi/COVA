@@ -167,6 +167,7 @@ def main(config_args):
 
 
 if __name__ == '__main__':
+    print("----- MF -----")
     config = {
         'lr': 1e-3,  # [1e-2, 1e-3, 1e-4]
         'embed_size': 48,  # [32, 48, 64]
@@ -178,6 +179,7 @@ if __name__ == '__main__':
         'init_std': 1e-3,  # [1e-2, 1e-3, 1e-4]
         'n_neg': 1  # negative sample 
     }
+    print(config)
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--attack', type=str)

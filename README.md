@@ -31,13 +31,7 @@ python _data_process.py
 
 2) Preprocessing Command Examples : specify the --dataset argument (Amazon_Book, Gowalla, or Yelp).
 
-- Basic Example (Yelp):
-Yelp dataset is preprocessed using default settings (attack=0.01, k=5, seed=1024).
-```bash
-python _data_process.py --dataset Yelp
-```
-
-- Full Arguments Example (Gowalla, Custom Settings):
+- Arguments Example (Gowalla, Custom Settings):
 Gowalla dataset is preprocessed with attack=0.05, k-core=10, and a custom seed=42.
 ```bash
 python _data_process.py --dataset Gowalla --attack 0.05 --k 10 --seed 42
@@ -76,60 +70,22 @@ Below we show LightGCN and MF examples on Yelp. Replace `yelp` with `gowalla` or
 This project can be executed with a single script: **main.py**.  
 You only need to edit `main.py` to set the desired **model type (model_type)**, **algorithm (algorithm)**, **dataset (dataset)**, and **parameters (args)**.  
 
----
-
 ### Run Command
+
+If you want to perform fine-grained configuration when running the script, you can run 'main.py'.
+
+Specify the model type, algorithm, dataset, and any additional parameters directly:
+
+```bash
+python main.py --model-type cova --algorithm LightGCN --dataset Yelp --attack 0.01 --gcn_layers 2
+```
+
+Use predefined configurations inside main.py by adding --use-preset.
+Uncomment the desired run_model(...) call in the code, then run:
 
 ```bash
 python main.py
 ```
-
-### Configuration
-Inside main.py, modify the run_model() call:
-```bash
-run_model(model_type, algorithm, dataset, args)
-```
-
-- model_type: choose from original, retrain, cova
-- algorithm: supported algorithms, e.g., MF, LightGCN
-- dataset: dataset name, e.g., Yelp, Amazon
-- args: additional parameters (dictionary format)
-
-### Example For Runs
-* Original Model
-- LightGCN (Yelp):
-```bash
-run_model('Original', 'LightGCN', 'Yelp', {'attack': '0.01', 'gcn_layers': '1'})
-```
-
-- MF (Yelp):
-```bash
-run_model('Original', 'MF', 'Yelp', {'attack': '0.01'})
-```
-
-* Retraining Model
-- LightGCN (Yelp):
-```bash
-run_model('Retrain', 'LightGCN', 'Yelp', {'attack': '0.01', 'gcn_layers': '1'})
-```
-
-- MF (Yelp):
-```bash
-run_model('Retrain', 'MF', 'Yelp', {'attack': '0.01'})
-```
-
-*  COVA
-- LightGCN (Yelp):
-```bash
-run_model('COVA', 'LightGCN', 'Yelp', {'attack': '0.01', 'dataset': 'Yelp', 'gcn_layers': '1'})
-```
-
-- MF (Yelp):
-```bash
-run_model('COVA', 'MF', 'Yelp', {'attack': '0.01', 'dataset': 'Yelp'})
-```
-
-
 
 ### Outputs
 - Model checkpoints are saved under `./Weights/LightGCN/` or `./Weights/MF/` with informative names including key configuration values.

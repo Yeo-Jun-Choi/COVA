@@ -4,10 +4,10 @@ import torch
 import torch.nn as nn
 import argparse
 import random
-from time import time
 
 from utility.load_data import *
 from Model.Lightgcn import LightGCN
+from models.COVA.joint_svd import joint_svd_unlearning_v7 as joint_svd_unlearning
 
 
 def compute_ranking_metrics_lightgcn(model, dataset, data_generator, k_list=[20, 50, 100]):
@@ -457,6 +457,7 @@ def main(config_args=None):
 
 
 if __name__ == '__main__':
+    print("----- COVA LightGCN Gowalla.py -----")
     parser = argparse.ArgumentParser(description='COVA Unlearning Experiment for Gowalla with LightGCN')
     parser.add_argument('--alpha', type=float, default=35)
     parser.add_argument('--beta', type=float, default=0.9)
@@ -476,6 +477,8 @@ if __name__ == '__main__':
     parser.add_argument('--gcn_layers', type=int, default=1)
 
     args_cmd = parser.parse_args()
+    
+    print("--- COVA Unlearning Experiment for Gowalla with LightGCN ---")
 
     config_args = {}
     config_args['embed_size'] = args_cmd.embed_size
@@ -494,6 +497,8 @@ if __name__ == '__main__':
     config_args['regs'] = 0
     if getattr(args_cmd, 'gcn_layers', None) is not None:
         config_args['gcn_layers'] = args_cmd.gcn_layers
+        
+    print("----")
     config_args['init_std'] = args_cmd.init_std
     config_args['alpha'] = args_cmd.alpha
     config_args['beta'] = args_cmd.beta
@@ -504,10 +509,7 @@ if __name__ == '__main__':
     config_args['script_name'] = 'COVA_lightgcn_Gowalla.py'
     config_args['version'] = args_cmd.version
     config_args['n_neg'] = args_cmd.n_neg
-
-    if config_args['version'] == 'mean':
-        from joint_svd import joint_svd_unlearning_v7_mean_std as joint_svd_unlearning
-    elif config_args['version'] == 'v7':
-        from joint_svd import joint_svd_unlearning_v7 as joint_svd_unlearning
+    
+    print("------------")
 
     main(config_args) 
