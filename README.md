@@ -47,7 +47,7 @@ This project can be executed with a single script: **main.py**.
 You only need to edit `main.py` to set the desired **model type (model_type)**, **algorithm (algorithm)**, **dataset (dataset)**, and **parameters (args)**.  
 
 ```bash
-# Example: LightGCN on Yelp
+# Example: MF on Yelp
 python main.py --model-type cova --algorithm MF --dataset yelp --attack 0.01 --alpha 35 --beta 0.9
 ```
 
