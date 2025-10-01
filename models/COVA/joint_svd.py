@@ -123,11 +123,9 @@ def joint_svd_unlearning_v7(R_original, R_ideal, R_pred,
     Y = V_joint @ S_sqrt_mat
 
     # Original-orthogonal residuals (row-wise)
-    Delta1 = U2 - U1 # Unlearning Impact
-    Delta2 = U3 - U1 # Collaborative Impact of Original
-
-    # Orthogonal residual correction (anchor at X3)
-    X_new = U3 + beta * Delta1 - alpha * Delta2
+    Delta1 = U1 - U2
+    Delta2 = U3 - U1
+    X_new = U3 - alpha * Delta1 - beta * Delta2
 
     # Optional: memory cleanup of intermediates
     del U_joint, S_joint, V_joint, U1, U2, U3, sqrt_S, Delta1
@@ -377,9 +375,9 @@ def joint_svd_unlearning_v7_max_min(R_original, R_ideal, R_pred,
     S_sqrt_mat = torch.diag(sqrt_S)
     Y = V_joint @ S_sqrt_mat
 
-    Delta1 = U2 - U1
+    Delta1 = U1 - U2
     Delta2 = U3 - U1
-    X_new = U3 + beta * Delta1 - alpha * Delta2
+    X_new = U3 - alpha * Delta1 - beta * Delta2
 
     del U_joint, S_joint, V_joint, U1, U2, U3, sqrt_S, Delta1
     torch.cuda.empty_cache()
@@ -491,9 +489,9 @@ def joint_svd_unlearning_v7_binary(R_original, R_ideal, R_pred,
     S_sqrt_mat = torch.diag(sqrt_S)
     Y = V_joint @ S_sqrt_mat
 
-    Delta1 = U2 - U1
+    Delta1 = U1 - U2
     Delta2 = U3 - U1
-    X_new = U3 + beta * Delta1 - alpha * Delta2
+    X_new = U3 - alpha * Delta1 - beta * Delta2
 
     del U_joint, S_joint, V_joint, U1, U2, U3, sqrt_S, Delta1
     torch.cuda.empty_cache()
@@ -604,9 +602,9 @@ def joint_svd_unlearning_v7_binary_target0(R_original, R_ideal, R_pred,
     S_sqrt_mat = torch.diag(sqrt_S)
     Y = V_joint @ S_sqrt_mat
 
-    Delta1 = U2 - U1
+    Delta1 = U1 - U2
     Delta2 = U3 - U1
-    X_new = U3 + beta * Delta1 - alpha * Delta2
+    X_new = U3 - alpha * Delta1 - beta * Delta2
 
     del U_joint, S_joint, V_joint, U1, U2, U3, sqrt_S, Delta1
     torch.cuda.empty_cache()
